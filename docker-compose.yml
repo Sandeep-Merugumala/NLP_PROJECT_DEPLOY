@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5001:5000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Persist papers.json, ratings.json, collections.json, reward_log.jsonl
+      - scholar_data:/app/data
+      # Persist PDF RAG chunk cache
+      - scholar_pdf_cache:/app/pdf_cache
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+# Named volumes — data survives container restarts and rebuilds
+volumes:
+  scholar_data:
+  scholar_pdf_cache:
