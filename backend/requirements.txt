@@ -5,4 +5,4 @@ scikit-learn>=1.0.0
 pypdf
 langchain-core
 langgraph
-sentence-transformers>=2.2.0
+# sentence-transformers>=2.2.0 (Commented out to save memory on Render Free Tier)
